@@ -6,7 +6,7 @@ import static utils.JsonUtility.fetchExchangeRates;
 
 public class Product {
 
-    private String name;
+    private String product;
     private String origin;
     private String currency;
     private double price;
@@ -15,12 +15,12 @@ public class Product {
     private String category;
     private String arrival;
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String name) {
+        this.product = name;
     }
 
-    public String getName() {
-        return this.name;
+    public String getProductName() {
+        return this.product;
     }
     public void setOrigin(String origin) {
         this.origin = origin;
@@ -83,8 +83,9 @@ public class Product {
     }
 
     public void checkAndConvertCurrency(String currency) throws IOException{
-        if(currency != "INR"){
-            this.price = convertCurrency(currency,this.price);
+        if(!currency.equals("INR")){
+            this.setPrice(convertCurrency(currency,this.price));
+            this.setCurrency("INR");
         }
     }
 

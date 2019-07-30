@@ -1,6 +1,7 @@
 package utils;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import models.Product;
 import models.ProductDiscount;
 import org.json.JSONArray;
@@ -38,13 +39,15 @@ public class JsonUtility {
         }
     }
 
-    public static long fetchExchangeRates(String currency , Double price) throws IOException {
+    public static double fetchExchangeRates(String currency , Double price) throws IOException {
         //TODO:Fix this Code
-        URL urlForGetRequest = new URL(": https://api.exchangeratesapi.io/latest");
+        URL urlForGetRequest = new URL("https://api.exchangeratesapi.io/latest");
         String readLine = null;
+        Gson gson = new Gson();
         HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
         conection.setRequestMethod("GET");
         int responseCode = conection.getResponseCode();
+        double INRprice = 0;
         if (responseCode == HttpURLConnection.HTTP_OK) {
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(conection.getInputStream()));
@@ -53,13 +56,18 @@ public class JsonUtility {
                 response.append(readLine);
             } in .close();
             // print result
-            System.out.println("JSON String Result " + response.toString());
-            //GetAndPost.POSTRequest(response.toString());
+
+            JSONObject forexRates = new JSONObject(response.toString());
+            double exRate = forexRates.getJSONObject("rates").getDouble(currency);
+            double InrRate =  forexRates.getJSONObject("rates").getDouble("INR");
+
+            double euroPrice = price/exRate;
+            INRprice = InrRate * euroPrice;
         } else {
             System.out.println("GET NOT WORKED");
         }
 
-        return 0;
+        return INRprice;
 
     }
 

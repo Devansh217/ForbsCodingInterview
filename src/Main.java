@@ -17,6 +17,7 @@ public class Main {
             System.out.println("Incorrect Argument");
         } else {
             for (Product p : products) {
+                p.checkAndConvertCurrency(p.getCurrency());
                 Promotions promo = new PromotionFactory(p).getPromotion(args[0]);
                 ProductDiscount pd = promo.applyPromotion();
                 String jpd = convertToJson(pd);
