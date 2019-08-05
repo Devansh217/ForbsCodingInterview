@@ -39,10 +39,15 @@ public class PromotionTypeA implements  Promotions{
             amount = product.getPrice()*0.04;
             discountTag = "get 4% off";
         }
+        else if(product.getPrice() > 1000) {
+            amount = product.getPrice()*0.02;
+            discountTag = "get 2% off";
+        }
         if((product.getCategory().equals("electronics") || product.getCategory().equals("furnishing") ) && amount < 100.0) {
             amount =  100;
             discountTag = "get Rs 100 off";
         }
+
 
         Discount dis = new Discount(amount,discountTag);
         pd.setDiscount(dis);

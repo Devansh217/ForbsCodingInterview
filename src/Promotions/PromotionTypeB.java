@@ -33,6 +33,10 @@ public class PromotionTypeB implements Promotions {
             amount = product.getPrice()*0.07;
             discountTag = "get 7% off";
         }
+        else if(product.getPrice() > 1000) {
+            amount = product.getPrice()*0.02;
+            discountTag = "get 2% off";
+        }
 
 
         Discount dis = new Discount(amount,discountTag);
